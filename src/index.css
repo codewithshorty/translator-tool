@@ -1,6 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=IM+Fell+English+SC&family=Noto+Serif+JP:wght@200..900&family=Shafarik&family=Sriracha&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* :root {
+  --arab: "IBM Plex Sans Arabic", sans-serif;
+  --eng: "IM Fell English SC", serif;
+  --cir: "Shafarik", system-ui;
+  --hin: "Sriracha", cursive;
+  --jap: "Noto Serif JP", serif;
+  --color-1: #051923;
+  --color-2: #003554;
+  --color-3: #006494;
+  --color-4: #0582ca;
+  --color-5: #00a6fb;
+} */
+
+.start:active {
+  transform: skewX(5deg);
+}
+
+.translate-text:active {
+  transform: scale(1.05);
+  transition: all 0.3s;
+}
 
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
