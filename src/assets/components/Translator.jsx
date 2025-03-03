@@ -1,6 +1,6 @@
 import React from "react";
 
-const Translator = () => {
+const Translator = ({ onCloseTranslator }) => {
   return (
     <div>
       <div class="p-5 space-y-5 ">
@@ -11,7 +11,7 @@ const Translator = () => {
             <h2>Serbian</h2>
           </div>
           <div>
-            <button class="cursor-pointer">
+            <button class="cursor-pointer" onClick={onCloseTranslator}>
               <i class="fa-regular fa-rectangle-xmark text-4xl hover:text-red-800 text-red-500 font-bold"></i>
             </button>
           </div>
