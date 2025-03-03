@@ -1,16 +1,37 @@
-import React from "react";
-import { languages } from "../../languagesObject";
+import React, { useState } from "react";
 
-const Translator = ({ onCloseTranslator }) => {
+const Translator = ({ onCloseTranslator, languages }) => {
+  const [languageFrom, setLanguageFrom] = useState("en");
+  const [languageTo, setLanguageTo] = useState("en");
+  const [languageDropdownVisible, setLanguageDropdownVisible] = useState(false);
+  const [languageSelectedType, setLanguageSelectedType] = useState(null);
+
+  const handleSelectedLanguage = (type) => {
+    setLanguageDropdownVisible(
+      (languageDropdownVisible) => !languageDropdownVisible
+    );
+    setLanguageSelectedType(type);
+  };
+
   console.log(languages);
   return (
     <div>
-      <div className="p-5 space-y-5 ">
+      <div className="p-5 space-y-5 relative">
         <div className="flex justify-between items-center ">
           <div className="flex justify-evenly items-center w-[90%] p-1 text-white text-xl font-bold bg-gradient-to-l from-[#051923] to-[#003554] rounded-md">
-            <h2>English</h2>
-            <i className="fa-solid fa-right-left "></i>
-            <h2>Serbian</h2>
+            <div
+              className="cursor-pointer hover:text-black"
+              onClick={() => handleSelectedLanguage("from")}
+            >
+              English
+            </div>
+            <i className="fa-solid fa-right-left cursor-pointer hover:text-black"></i>
+            <div
+              className="cursor-pointer hover:text-black"
+              onClick={() => handleSelectedLanguage("to")}
+            >
+              Serbian
+            </div>
           </div>
           <div>
             <button className="cursor-pointer" onClick={onCloseTranslator}>
@@ -18,7 +39,19 @@ const Translator = ({ onCloseTranslator }) => {
             </button>
           </div>
         </div>
-
+        {languageDropdownVisible && (
+          <div className="">
+            <ul className="text-white font-extralight bg-gradient-to-b from-[#051923] to-[#003554] absolute top-16 left-5 w-[93%] h-[85%] text-xs text-center overflow-auto rounded-md">
+              {Object.entries(languages).map(([key, value]) => {
+                return (
+                  <li className="p-1" key={key}>
+                    {value}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
         <div>
           <div className="pb-3">
             <textarea
