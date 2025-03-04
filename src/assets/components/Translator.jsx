@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 const Translator = ({ onCloseTranslator, languages }) => {
-  const [languageFrom, setLanguageFrom] = useState("en");
-  const [languageTo, setLanguageTo] = useState("en");
+  const [languageFrom, setLanguageFrom] = useState("English");
+  const [languageTo, setLanguageTo] = useState("English");
   const [languageDropdownVisible, setLanguageDropdownVisible] = useState(false);
   const [languageSelectedType, setLanguageSelectedType] = useState(null);
 
@@ -11,6 +11,14 @@ const Translator = ({ onCloseTranslator, languages }) => {
       (languageDropdownVisible) => !languageDropdownVisible
     );
     setLanguageSelectedType(type);
+  };
+
+  const handleSelectedLanguageCode = (shortCode) => {
+    if (languageSelectedType === "from") {
+      setLanguageFrom(languages[shortCode]);
+    } else {
+      setLanguageTo(languages[shortCode]);
+    }
   };
 
   console.log(languages);
@@ -23,14 +31,14 @@ const Translator = ({ onCloseTranslator, languages }) => {
               className="cursor-pointer hover:text-black"
               onClick={() => handleSelectedLanguage("from")}
             >
-              English
+              {languageFrom || ""}
             </div>
             <i className="fa-solid fa-right-left cursor-pointer hover:text-black"></i>
             <div
               className="cursor-pointer hover:text-black"
               onClick={() => handleSelectedLanguage("to")}
             >
-              Serbian
+              {languageTo || ""}
             </div>
           </div>
           <div>
@@ -40,12 +48,16 @@ const Translator = ({ onCloseTranslator, languages }) => {
           </div>
         </div>
         {languageDropdownVisible && (
-          <div className="">
-            <ul className="text-white font-extralight bg-gradient-to-b from-[#051923] to-[#003554] absolute top-16 left-5 w-[93%] h-[85%] text-xs text-center overflow-auto rounded-md">
-              {Object.entries(languages).map(([key, value]) => {
+          <div className="text-white font-extralight bg-gradient-to-b from-[#051923] to-[#003554] absolute top-14 left-5 w-[calc(100%-2.5rem)] h-[85%] text-xs text-center overflow-auto rounded-md">
+            <ul>
+              {Object.entries(languages).map(([shortCode, valueLanguage]) => {
                 return (
-                  <li className="p-1" key={key}>
-                    {value}
+                  <li
+                    className="p-1 cursor-pointer hover:border-2 hover:border-white"
+                    key={shortCode}
+                    onClick={() => handleSelectedLanguageCode(shortCode)}
+                  >
+                    {valueLanguage}
                   </li>
                 );
               })}
