@@ -19,6 +19,13 @@ const Translator = ({ onCloseTranslator, languages }) => {
     } else {
       setLanguageTo(languages[shortCode]);
     }
+
+    setLanguageDropdownVisible(false);
+  };
+
+  const handleLanguageSwapping = () => {
+    setLanguageFrom(languageTo);
+    setLanguageTo(languageFrom);
   };
 
   console.log(languages);
@@ -33,7 +40,10 @@ const Translator = ({ onCloseTranslator, languages }) => {
             >
               {languageFrom || ""}
             </div>
-            <i className="fa-solid fa-right-left cursor-pointer hover:text-black"></i>
+            <i
+              className="fa-solid fa-right-left cursor-pointer hover:text-black"
+              onClick={handleLanguageSwapping}
+            ></i>
             <div
               className="cursor-pointer hover:text-black"
               onClick={() => handleSelectedLanguage("to")}
