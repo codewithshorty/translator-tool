@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 const Translator = ({ onCloseTranslator, languages }) => {
-  const [languageFrom, setLanguageFrom] = useState("English");
+  const [languageFrom, setLanguageFrom] = useState("Serbian");
   const [languageTo, setLanguageTo] = useState("English");
   const [languageDropdownVisible, setLanguageDropdownVisible] = useState(false);
   const [languageSelectedType, setLanguageSelectedType] = useState(null);
   const [textInput, setTextInput] = useState("");
-  const [textTranslated, setTextTranslated] = useState();
+  const [textTranslated, setTextTranslated] = useState("");
 
   const handleSelectedLanguage = (type) => {
     setLanguageDropdownVisible(
@@ -37,8 +37,13 @@ const Translator = ({ onCloseTranslator, languages }) => {
       `https://api.mymemory.translated.net/get?q=${textInput}&langpair=${languageFrom}|${languageTo}`
     );
     const responseJson = await response.json();
-    console.log(responseJson.responseData.translatedText);
     setTextTranslated(responseJson.responseData.translatedText);
+  };
+
+  const keyEnterTranslate = (e) => {
+    if (e.key === "Enter") {
+      translateTextInput();
+    }
   };
 
   // console.log(languages);
@@ -90,11 +95,12 @@ const Translator = ({ onCloseTranslator, languages }) => {
         <div>
           <div className="pb-3">
             <textarea
-              className="bg-(--color-5) w-full h-[25vh] rounded-md resize-none"
+              className="bg-[#00a6fb] w-full h-[25vh] rounded-md resize-none p-1 text-white font-semibold"
               name=""
               id=""
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
+              onKeyDown={keyEnterTranslate}
             ></textarea>
             <div className="flex flex-col items-center space-y-1">
               <h3>100/200</h3>
@@ -108,7 +114,7 @@ const Translator = ({ onCloseTranslator, languages }) => {
           </div>
           <div className="pt-2">
             <textarea
-              className="bg-(--color-5) w-full h-[25vh] rounded-md resize-none"
+              className="bg-[#00a6fb] w-full h-[25vh] rounded-md resize-none p-1 text-white font-semiboldtatus"
               name=""
               id=""
               value={textTranslated}
