@@ -5,6 +5,8 @@ const Translator = ({ onCloseTranslator, languages }) => {
   const [languageTo, setLanguageTo] = useState("English");
   const [languageDropdownVisible, setLanguageDropdownVisible] = useState(false);
   const [languageSelectedType, setLanguageSelectedType] = useState(null);
+  const [textInput, setTextInput] = useState("");
+  const [textTranslated, setTextTranslated] = useState();
 
   const handleSelectedLanguage = (type) => {
     setLanguageDropdownVisible(
@@ -28,7 +30,18 @@ const Translator = ({ onCloseTranslator, languages }) => {
     setLanguageTo(languageFrom);
   };
 
-  console.log(languages);
+  const translateTextInput = async () => {
+    if (textInput.trim() === "") return;
+
+    const response = await fetch(
+      `https://api.mymemory.translated.net/get?q=${textInput}&langpair=${languageFrom}|${languageTo}`
+    );
+    const responseJson = await response.json();
+    console.log(responseJson.responseData.translatedText);
+    setTextTranslated(responseJson.responseData.translatedText);
+  };
+
+  // console.log(languages);
   return (
     <div>
       <div className="p-5 space-y-5 relative">
@@ -77,22 +90,29 @@ const Translator = ({ onCloseTranslator, languages }) => {
         <div>
           <div className="pb-3">
             <textarea
-              className="bg-(--color-5) w-full h-[25vh] rounded-md"
+              className="bg-(--color-5) w-full h-[25vh] rounded-md resize-none"
               name=""
               id=""
+              value={textInput}
+              onChange={(e) => setTextInput(e.target.value)}
             ></textarea>
             <div className="flex flex-col items-center space-y-1">
               <h3>100/200</h3>
-              <button className="bg-[#0582ca] text-[#051923] text-1xl font-semibold uppercase py-5 px-10 rounded-lg hover:bg-[#00a6fb] hover:text-black active:text-white translate-text ">
+              <button
+                className="bg-[#0582ca] text-[#051923] text-1xl font-semibold uppercase py-5 px-10 rounded-lg hover:bg-[#00a6fb] hover:text-black active:text-white translate-text "
+                onClick={translateTextInput}
+              >
                 translate text <i className="fa-solid fa-turn-down"></i>
               </button>
             </div>
           </div>
           <div className="pt-2">
             <textarea
-              className="bg-(--color-5) w-full h-[25vh] rounded-md"
+              className="bg-(--color-5) w-full h-[25vh] rounded-md resize-none"
               name=""
               id=""
+              value={textTranslated}
+              readOnly
             ></textarea>
           </div>
         </div>
