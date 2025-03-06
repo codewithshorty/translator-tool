@@ -38,10 +38,6 @@ const Translator = ({ onCloseTranslator, languages }) => {
   const translateTextInput = async () => {
     if (textInput.trim() === "") return;
 
-    // setCountInputCharacter()
-
-    // if(textInput.length <= maxCharacter)
-
     const response = await fetch(
       `https://api.mymemory.translated.net/get?q=${textInput}&langpair=${languageFrom}|${languageTo}`
     );
@@ -109,7 +105,7 @@ const Translator = ({ onCloseTranslator, languages }) => {
         </div>
         {languageDropdownVisible && (
           <div
-            className="text-white font-extralight bg-gradient-to-b from-[#051923] to-[#003554] absolute top-14 left-5 w-[calc(100%-2.5rem)] h-[85%] text-xs text-center overflow-auto rounded-md"
+            className="text-white font-extralight bg-gradient-to-b from-[#051923] to-[#003554] absolute top-14 left-5 w-[calc(100%-2.5rem)] h-[60%] text-xs text-center overflow-auto rounded-md"
             ref={dropdownRef}
           >
             <ul>
