@@ -7,6 +7,9 @@ const Translator = ({ onCloseTranslator, languages }) => {
   const [languageSelectedType, setLanguageSelectedType] = useState(null);
   const [textInput, setTextInput] = useState("");
   const [textTranslated, setTextTranslated] = useState("");
+  const [countInputCharacter, setCountInputCharacter] = useState(0);
+
+  const maxCharacter = 200;
 
   const handleSelectedLanguage = (type) => {
     setLanguageDropdownVisible(
@@ -33,6 +36,10 @@ const Translator = ({ onCloseTranslator, languages }) => {
   const translateTextInput = async () => {
     if (textInput.trim() === "") return;
 
+    // setCountInputCharacter()
+
+    // if(textInput.length <= maxCharacter)
+
     const response = await fetch(
       `https://api.mymemory.translated.net/get?q=${textInput}&langpair=${languageFrom}|${languageTo}`
     );
@@ -43,6 +50,14 @@ const Translator = ({ onCloseTranslator, languages }) => {
   const keyEnterTranslate = (e) => {
     if (e.key === "Enter") {
       translateTextInput();
+    }
+  };
+
+  const inputCreation = (e) => {
+    const valueText = e.target.value;
+    if (valueText.length <= maxCharacter) {
+      setTextInput(valueText);
+      setCountInputCharacter(valueText.length);
     }
   };
 
@@ -99,11 +114,13 @@ const Translator = ({ onCloseTranslator, languages }) => {
               name=""
               id=""
               value={textInput}
-              onChange={(e) => setTextInput(e.target.value)}
+              onChange={inputCreation}
               onKeyDown={keyEnterTranslate}
             ></textarea>
             <div className="flex flex-col items-center space-y-1">
-              <h3>100/200</h3>
+              <h3>
+                {countInputCharacter}/{maxCharacter}
+              </h3>
               <button
                 className="bg-[#0582ca] text-[#051923] text-1xl font-semibold uppercase py-5 px-10 rounded-lg hover:bg-[#00a6fb] hover:text-black active:text-white translate-text "
                 onClick={translateTextInput}
@@ -114,7 +131,7 @@ const Translator = ({ onCloseTranslator, languages }) => {
           </div>
           <div className="pt-2">
             <textarea
-              className="bg-[#00a6fb] w-full h-[25vh] rounded-md resize-none p-1 text-white font-semiboldtatus"
+              className="bg-[#00a6fb] w-full h-[25vh] rounded-md resize-none p-1 text-black font-semibold"
               name=""
               id=""
               value={textTranslated}
