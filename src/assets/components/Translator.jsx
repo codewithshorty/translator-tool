@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Translator = ({ onCloseTranslator, languages }) => {
   const [languageFrom, setLanguageFrom] = useState("Serbian");
@@ -10,6 +10,8 @@ const Translator = ({ onCloseTranslator, languages }) => {
   const [countInputCharacter, setCountInputCharacter] = useState(0);
 
   const maxCharacter = 200;
+
+  const dropdownRef = useRef(null);
 
   const handleSelectedLanguage = (type) => {
     setLanguageDropdownVisible(
@@ -61,7 +63,22 @@ const Translator = ({ onCloseTranslator, languages }) => {
     }
   };
 
-  // console.log(languages);
+  const escapeDropdown = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      setLanguageDropdownVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    if (languageDropdownVisible) {
+      document.addEventListener("mousedown", escapeDropdown);
+    } else {
+      document.removeEventListener("mousedown", escapeDropdown);
+    }
+
+    return () => document.removeEventListener("mousedown", escapeDropdown);
+  }, [languageDropdownVisible]);
+
   return (
     <div>
       <div className="p-5 space-y-5 relative">
@@ -91,7 +108,10 @@ const Translator = ({ onCloseTranslator, languages }) => {
           </div>
         </div>
         {languageDropdownVisible && (
-          <div className="text-white font-extralight bg-gradient-to-b from-[#051923] to-[#003554] absolute top-14 left-5 w-[calc(100%-2.5rem)] h-[85%] text-xs text-center overflow-auto rounded-md">
+          <div
+            className="text-white font-extralight bg-gradient-to-b from-[#051923] to-[#003554] absolute top-14 left-5 w-[calc(100%-2.5rem)] h-[85%] text-xs text-center overflow-auto rounded-md"
+            ref={dropdownRef}
+          >
             <ul>
               {Object.entries(languages).map(([shortCode, valueLanguage]) => {
                 return (
